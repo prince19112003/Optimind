@@ -1,0 +1,189 @@
+{
+  "name": "optimind-pro",
+  "displayName": "OptiMind Pro",
+  "description": "Privacy-first AI code optimizer. Local Ollama + Cloud AI. Lightweight & reliable.",
+  "version": "0.1.0",
+  "publisher": "prince19112003",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prince19112003/OptiMindPro"
+  },
+  "icon": "resources/icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Linters"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onView:optimind-pro.dashboard",
+    "onView:optimind-pro.history",
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "optimind-pro.analyze",
+        "title": "OptiMind: ⚡ Analyze & Optimize Code",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.healthCheck",
+        "title": "OptiMind: 🩺 Check Engine Status",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.generateTests",
+        "title": "OptiMind: 🧪 Generate Unit Tests",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.workspaceScan",
+        "title": "OptiMind: 🔍 Scan Workspace for Technical Debt",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.securityAudit",
+        "title": "OptiMind: 🔐 Security Audit",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.setApiKey",
+        "title": "OptiMind: 🔑 Set API Key",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.applyLast",
+        "title": "OptiMind: ✅ Apply Last Optimization",
+        "category": "OptiMind"
+      },
+      {
+        "command": "optimind-pro.clearHistory",
+        "title": "OptiMind: 🗑️ Clear History",
+        "category": "OptiMind",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "optimind-pro.applyHistory",
+        "title": "Apply Code",
+        "icon": "$(check)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "optimind-pro.analyze",
+          "group": "1_modification@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "optimind-pro.generateTests",
+          "group": "1_modification@2",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "optimind-pro.securityAudit",
+          "group": "1_modification@3",
+          "when": "editorHasSelection"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "optimind-pro.clearHistory",
+          "when": "view == optimind-pro.history",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "optimind-pro.applyHistory",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "OptiMind Pro",
+      "properties": {
+        "optimind-pro.provider": {
+          "type": "string",
+          "enum": [
+            "ollama",
+            "openai",
+            "gemini"
+          ],
+          "default": "ollama",
+          "description": "AI provider: Ollama (local/free), OpenAI, or Google Gemini."
+        },
+        "optimind-pro.ollamaUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Base URL for the local Ollama API."
+        },
+        "optimind-pro.defaultModel": {
+          "type": "string",
+          "default": "deepseek-coder:1.3b",
+          "description": "Ollama model to use for optimization."
+        },
+        "optimind-pro.openaiModel": {
+          "type": "string",
+          "default": "gpt-4o-mini",
+          "description": "OpenAI model to use."
+        },
+        "optimind-pro.geminiModel": {
+          "type": "string",
+          "default": "gemini-2.0-flash",
+          "description": "Google Gemini model to use."
+        },
+        "optimind-pro.enableBenchmarking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable local JS/TS performance benchmarking."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "optimind-pro-container",
+          "title": "OptiMind Pro",
+          "icon": "$(zap)"
+        }
+      ]
+    },
+    "views": {
+      "optimind-pro-container": [
+        {
+          "type": "webview",
+          "id": "optimind-pro.dashboard",
+          "name": "Dashboard"
+        },
+        {
+          "id": "optimind-pro.history",
+          "name": "Optimization History"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run bundle",
+    "compile": "tsc --noEmit",
+    "bundle": "node scripts/build.js",
+    "watch": "node scripts/build.js --watch",
+    "check-types": "tsc --noEmit",
+    "package": "node scripts/package.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.39",
+    "@types/vscode": "^1.90.0",
+    "esbuild": "^0.20.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "jsdom": "^29.0.2",
+    "ts-morph": "^22.0.0"
+  }
+}
